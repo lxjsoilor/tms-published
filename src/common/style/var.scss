@@ -1,0 +1,27 @@
+$baseFontSize: 50;//基数
+@function px2rem($px){
+  @return $px / $baseFontSize * 1rem;
+}
+
+$red: #ee0a24;
+$blue: #1989fa;
+$orange: #ff976a;
+$orange-dark: #ed6a0c;
+$orange-light: #fffbe8;
+$green: #07c160;
+
+// Font
+$font-size-xs: 10px;
+$font-size-sm: 12px;
+$font-size-md: 14px;
+$font-size-lg: 16px;
+$font-weight-bold: 500;
+
+// Border
+$border-color: #ebedf0;
+$border-width-base: 1px;
+$border-radius-sm: 2px;
+$border-radius-md: 4px;
+$border-radius-lg: 8px;
+$border-radius-max: 999px;
+

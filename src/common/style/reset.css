@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box !important;
+}
+
+body,
+h2,
+h3,
+h4,
+p,
+dl,
+dd,
+ul,
+ol,
+form,
+input,
+textarea,
+th,
+td,
+select {
+  margin: 0;
+  padding: 0;
+  color: #000;
+  font-size: 12px;
+}
+
+html,body{
+  overflow: hidden;
+  font-size: 12px;
+}
+
+h1{
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+
+th {
+  font-weight: normal !important;
+}
+
+em {
+    font-style: normal;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.show:hover {
+    color: red !important;
+}
+
+.show:visited {
+    color: purple !important;
+}
+
+img {
+    border: none;
+    vertical-align: top;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+input,
+textarea {
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    overflow: auto;
+}
