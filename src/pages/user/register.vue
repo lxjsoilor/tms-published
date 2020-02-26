@@ -147,7 +147,7 @@ export default {
     },
     handlerNextStep () {
       // 验证验证码是否正确
-      let storageCode = this.$pcCookie.get(this.$enums.SMS.REG_SMS)
+      let storageCode = this.PcCookie.get(this.gbs.SMS.REG_SMS)
       if (storageCode) {
         let storagePhone = storageCode.split('&&')[0]
         let storageSms = storageCode.split('&&')[1]
@@ -158,8 +158,8 @@ export default {
         } else if (this.SmsCode !== storageSms) {
           this.$toast('验证码不正确')
         } else {
-          this.$pcCookie.delete({
-            key: this.$enums.SMS.REG_SMS
+          this.PcCookie.delete({
+            key: this.gbs.SMS.REG_SMS
           })
           this.isRegStep1 = false
         }
@@ -170,8 +170,8 @@ export default {
     // 获取token
     async GetToken () {
       const result = await GetToken()
-      this.$pcCookie.set({
-        key: this.$enums.USER.TOKEN,
+      this.PcCookie.set({
+        key: this.gbs.USER.TOKEN,
         value: result
       })
     },
@@ -183,14 +183,14 @@ export default {
       if (result.Success) {
         this.regMessageTpl = result.Data[0].Message
         let random = this.createSmsCode(100000, 999999)
-        this.$pcCookie.set({
-          key: this.$enums.SMS.REG_SMS,
+        this.PcCookie.set({
+          key: this.gbs.SMS.REG_SMS,
           value: `${this.Phone}&&${random}`,
           expires: 360
         })
         this.regMessageTpl = this.regMessageTpl.replace('#parameter1', random)
         // 然后发送短信
-        this.SendMsg(this.$enums.SMS.REG_CODE_AL, random)
+        this.SendMsg(this.gbs.SMS.REG_CODE_AL, random)
       }
     },
     // 创建验证码
@@ -232,7 +232,7 @@ export default {
     async Register () {
       const result = await Register({
         Phone: this.Phone,
-        WeChatNo: this.$pcCookie.get(this.$enums.USER.OPEN_ID)
+        WeChatNo: this.PcCookie.get(this.gbs.USER.OPEN_ID)
       })
       if (result.Success) {
         HcMessageBox('注册成功')
@@ -248,7 +248,7 @@ export default {
     handlerGetSmsCode () {
       if (this.smsCodeBtn !== '获取验证码') return
       if (this.validate(this.Phone, 'phone')) {
-        this.GetMsgTemplateByCode(this.$enums.SMS.REG_CODE)
+        this.GetMsgTemplateByCode(this.gbs.SMS.REG_CODE)
       } else {
         this.$toast('手机号码格式不正确')
       }
@@ -267,7 +267,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.$pcCookie.get(this.$enums.USER.OPEN_ID)) {
+    if (!this.PcCookie.get(this.gbs.USER.OPEN_ID)) {
       this.jump('login')
     }
   }

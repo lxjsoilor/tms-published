@@ -1,14 +1,5 @@
 const gbs = {
   lockr_prefix: 'TSBEER_',
-  secret_key: '^#rwd6Ffz$X5alRN',
-  domain: '',
-  secret: {
-    key_str: '^#rwd6Ffz$X5alRN',
-    iv_str: '^#rwd6Ffz$X5alRN'
-  }
-}
-const cbs = {}
-const enums = {
   USER: {
     SIGNQTY: 'SIGNQTY',
     CARRIERNO: 'CARRIERNO',
@@ -55,7 +46,5 @@ const enums = {
   Appsecret: '43ee40070264740625a7989119f8ed37'
 }
 export {
-  gbs,
-  cbs,
-  enums
+  gbs
 }

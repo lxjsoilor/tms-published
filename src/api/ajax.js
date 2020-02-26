@@ -2,8 +2,9 @@
 import axios from './config'
 import md5 from 'js-md5'
 import { Base64 } from 'js-base64'
-import { PcCookie, enums } from '../utils'
+import { PcCookie, gbs } from '../utils'
 import { Toast } from 'vant'
+import { HcLoading } from 'components/hcLoading/index.js'
 // 后台数据返回成功标识
 export const ERR_OK = '000'
 // TOKEN过期
@@ -14,9 +15,9 @@ export function createVerify () {
   let Appid = '8309472954'
   let Nonce = Math.random() + ''
   let Signature = md5(`${Appid}${Timestamp}${Nonce}`).toUpperCase()
-  let Factory = PcCookie.get(enums.USER.TEMP_FACTORY) || PcCookie.get(enums.USER.FACTORY) || '1000'
+  let Factory = PcCookie.get(gbs.USER.TEMP_FACTORY) || PcCookie.get(gbs.USER.FACTORY) || '1000'
   let Data = [{}]
-  let Token = PcCookie.get(enums.USER.TOKEN)
+  let Token = PcCookie.get(gbs.USER.TOKEN)
   return {
     Signature,
     Timestamp,
@@ -31,7 +32,7 @@ let verifyObjOrg = createVerify()
 // 页面接口通用接口 Post
 export const ajaxPost = async function (url = '', data = {}, option = {}) {
   let verifyObj = JSON.parse(JSON.stringify(verifyObjOrg))
-  verifyObj.Token = PcCookie.get(enums.USER.TOKEN) || ' '
+  verifyObj.Token = PcCookie.get(gbs.USER.TOKEN) || ' '
   verifyObj.Data = [{}]
   if (option.contentType) axios.defaults.headers['Content-Type'] = option.contentType
   else axios.defaults.headers['Content-Type'] = 'application/json'
@@ -42,12 +43,10 @@ export const ajaxPost = async function (url = '', data = {}, option = {}) {
   }
   let params = JSON.parse(JSON.stringify(verifyObj))
   try {
-    Toast.loading({
-      duration: 20000
-    })
+    HcLoading.show()
     let result = await axios.post(url, params, option)
     return new Promise((resolve, reject) => {
-      Toast.clear()
+      HcLoading.close()
       if (url === '/api/Token/GetToken') {
         resolve(result.data)
       } else {
@@ -66,25 +65,25 @@ export const ajaxPost = async function (url = '', data = {}, option = {}) {
       }
     })
   } catch (err) {
-    Toast.clear()
+    HcLoading.close()
     console.log(err.response.data)
     if (err.response.data.ResultCode === '320') {
       Toast('登录过期，请重新登录！')
       setTimeout(() => {
         PcCookie.delete({
-          key: enums.USER.TOKEN
+          key: gbs.USER.TOKEN
         })
         PcCookie.delete({
-          key: enums.USER.LOGIN_NAME
+          key: gbs.USER.LOGIN_NAME
         })
         PcCookie.delete({
-          key: enums.USER.ROLE_ID
+          key: gbs.USER.ROLE_ID
         })
         PcCookie.delete({
-          key: enums.USER.PHONE
+          key: gbs.USER.PHONE
         })
         PcCookie.delete({
-          key: enums.USER.MENUS
+          key: gbs.USER.MENUS
         })
         window.location.replace('/index.html')
       }, 1000)
@@ -109,13 +108,11 @@ export const ajaxGet = async function (url = '', data = {}, option = {}) {
     baseURL = ''
   }
   try {
-    Toast.loading({
-      duration: 20000
-    })
+    HcLoading.show()
     //  console.log('data||'+JSON.stringify(params))
     let result = await axios.post(`${baseURL}/api?json=${JSON.stringify(params || {})}`, params, option)
     return new Promise((resolve, reject) => {
-      Toast.clear()
+      HcLoading.close()
       if (url === '/api/Token/GetToken') {
         resolve(result.data)
       } else {
@@ -133,7 +130,7 @@ export const ajaxGet = async function (url = '', data = {}, option = {}) {
       }
     })
   } catch (err) {
-    Toast.clear()
+    HcLoading.close()
     console.log({err})
     // Toast('接口请求超时，请重试！');
   }

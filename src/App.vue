@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <hcLoading v-model="loading"/> -->
     <transition :name="transitionName">
       <router-view class="hc-Router"></router-view>
     </transition>
@@ -11,7 +12,8 @@ export default {
   data () {
     return {
       keepAlive: 'main-keep-alive',
-      transitionName: 'slide-right'
+      transitionName: 'slide-right',
+      loading: true
     }
   },
   watch: {

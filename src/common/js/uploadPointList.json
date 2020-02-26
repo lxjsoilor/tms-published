@@ -1,0 +1,62 @@
+[
+  {
+    "SheetNo": "20021700002",
+    "SheetStatus": "7",
+    "PointInCode": "219913",
+    "PointName": "烟台 老班长",
+    "ArriveTime": "2020-02-18 11:45",
+    "LeaveTime": "2020-02-18 13:15",
+    "CreatePsn": "Auto",
+    "Sort": 1,
+    "Latitude": 37.5421,
+    "Longitude": 121.2663,
+    "lat": 37.5421,
+    "lng": 121.2663,
+    "iconUrl": "/static/img/map (5).14ac82c.png"
+  },
+  {
+    "SheetNo": "20021700002",
+    "SheetStatus": "7",
+    "PointInCode": "218985",
+    "PointName": "蓬莱市登州炫风超市",
+    "ArriveTime": null,
+    "LeaveTime": null,
+    "CreatePsn": null,
+    "Sort": 2,
+    "Latitude": 37.7918,
+    "Longitude": 120.7868,
+    "lat": 37.7918,
+    "lng": 120.7868,
+    "iconUrl": "/static/img/map (4).ad7a373.png"
+  },
+  {
+    "SheetNo": "20021700002",
+    "SheetStatus": "7",
+    "PointInCode": "218876",
+    "PointName": "龙口 同兴硕",
+    "ArriveTime": "2020-02-18 15:06",
+    "LeaveTime": "2020-02-18 16:01",
+    "CreatePsn": "Auto",
+    "Sort": 3,
+    "Latitude": 37.6385,
+    "Longitude": 120.5358,
+    "lat": 37.6385,
+    "lng": 120.5358,
+    "iconUrl": "/static/img/map (5).14ac82c.png"
+  },
+  {
+    "SheetNo": "20021700002",
+    "SheetStatus": "7",
+    "PointInCode": "221252",
+    "PointName": "若淇 莱州",
+    "ArriveTime": "2020-02-18 17:06",
+    "LeaveTime": "2020-02-18 17:46",
+    "CreatePsn": "Auto",
+    "Sort": 4,
+    "Latitude": 37.1954,
+    "Longitude": 119.9238,
+    "lat": 37.1954,
+    "lng": 119.9238,
+    "iconUrl": "/static/img/map (5).14ac82c.png"
+  }
+]

@@ -1,8 +1,6 @@
 import PcCookie from './cookie'
-import { gbs, cbs, enums } from '../utils/settings'
+import { gbs } from '../utils/settings'
 export {
   PcCookie,
-  gbs,
-  cbs,
-  enums
+  gbs
 }

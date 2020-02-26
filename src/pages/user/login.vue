@@ -10,7 +10,7 @@
       <input v-model="SmsCode" placeholder="请输入验证码" maxlength="6" type="text" />
     </div>
     <div class="hc-login-btn">
-      <van-button v-ripple type="primary" size="large" @click="Login">登录</van-button>
+      <van-button v-ripple type="primary" size="large" @click="LoginTest">登录</van-button>
       <van-button v-ripple type="default" size="large" @click="jump('register')">注册</van-button>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
     handlerGetSmsCode () {
       if (this.smsCodeBtn !== '获取验证码') return
       if (this.validate(this.Phone, 'phone')) {
-        this.GetMsgTemplateByCode(this.$enums.SMS.LOGIN_CODE)
+        this.GetMsgTemplateByCode(this.gbs.SMS.LOGIN_CODE)
       } else {
         this.$toast('手机号码格式不正确')
       }
@@ -51,21 +51,21 @@ export default {
       if (result.Success) {
         this.regMessageTpl = result.Data[0].Message
         let random = this.createSmsCode(100000, 999999)
-        this.$pcCookie.set({
-          key: this.$enums.SMS.LOGIN_SMS,
+        this.PcCookie.set({
+          key: this.gbs.SMS.LOGIN_SMS,
           value: `${this.Phone}&&${random}`,
           expires: 360
         })
         this.regMessageTpl = this.regMessageTpl.replace('#parameter1', random)
         // 然后发送短信
-        this.SendMsg(this.$enums.SMS.LOGIN_CODE_AL, random)
+        this.SendMsg(this.gbs.SMS.LOGIN_CODE_AL, random)
       }
     },
     // 获取token
     async GetToken () {
       const result = await GetToken()
-      this.$pcCookie.set({
-        key: this.$enums.USER.TOKEN,
+      this.PcCookie.set({
+        key: this.gbs.USER.TOKEN,
         value: result
       })
     },
@@ -103,18 +103,6 @@ export default {
             parameter1
           })
         })
-        // await MsgLog({
-        //   MsgName: '登录验证',
-        //   MsgType: '1',
-        //   Message: this.regMessageTpl,
-        //   IsSend: true,
-        //   SendTime: new Date(),
-        //   Receiver: this.Phone,
-        //   Remark: '',
-        //   JsonParamet: JSON.stringify({
-        //     parameter1
-        //   })
-        // })
       }
     },
     async countDown () {
@@ -130,37 +118,39 @@ export default {
     },
     // test
     async LoginTest () {
+      // setTimeout(() => {
+      //   this.$loading.hide()
+      // }, 100000)
       const result = await Login({
         Phone: this.Phone,
-        WeChatNo: this.$pcCookie.get(this.$enums.USER.OPEN_ID)
+        WeChatNo: this.PcCookie.get(this.gbs.USER.OPEN_ID)
       })
       console.log(result)
       const data = result.Data[0]
       if (result.Success) {
         // 存储相关用户信息
-        this.$pcCookie.set({
-          key: this.$enums.USER.LOGIN_NAME,
+        this.PcCookie.set({
+          key: this.gbs.USER.LOGIN_NAME,
           value: data.Phone
         })
-        this.$pcCookie.set({
-          key: this.$enums.USER.ROLE_ID,
+        this.PcCookie.set({
+          key: this.gbs.USER.ROLE_ID,
           value: data.RoleId
         })
-        this.$pcCookie.set({
-          key: this.$enums.USER.PHONE,
+        this.PcCookie.set({
+          key: this.gbs.USER.PHONE,
           value: data.Phone
         })
-        this.$pcCookie.set({
-          key: this.$enums.USER.MENUS,
+        this.PcCookie.set({
+          key: this.gbs.USER.MENUS,
           value: data.Menus
         })
-        this.jump('dealer')
+        this.jump('logisticsList')
       }
     },
     // 登录
     async Login () {
-      // 13527783971
-      let storageCode = this.$pcCookie.get(this.$enums.SMS.LOGIN_SMS)
+      let storageCode = this.PcCookie.get(this.gbs.SMS.LOGIN_SMS)
       if (storageCode) {
         let storagePhone = storageCode.split('&&')[0]
         let storageSms = storageCode.split('&&')[1]
@@ -173,29 +163,29 @@ export default {
         } else {
           const result = await Login({
             Phone: this.Phone,
-            WeChatNo: this.$pcCookie.get(this.$enums.USER.OPEN_ID)
+            WeChatNo: this.PcCookie.get(this.gbs.USER.OPEN_ID)
           })
           const data = result.Data[0]
           if (result.Success) {
             // 存储相关用户信息
-            this.$pcCookie.set({
-              key: this.$enums.USER.LOGIN_NAME,
+            this.PcCookie.set({
+              key: this.gbs.USER.LOGIN_NAME,
               value: data.Phone
             })
-            this.$pcCookie.set({
-              key: this.$enums.USER.ROLE_ID,
+            this.PcCookie.set({
+              key: this.gbs.USER.ROLE_ID,
               value: data.RoleId
             })
-            this.$pcCookie.set({
-              key: this.$enums.USER.PHONE,
+            this.PcCookie.set({
+              key: this.gbs.USER.PHONE,
               value: data.Phone
             })
-            this.$pcCookie.set({
-              key: this.$enums.USER.MENUS,
+            this.PcCookie.set({
+              key: this.gbs.USER.MENUS,
               value: data.Menus
             })
-            this.$pcCookie.delete({
-              key: this.$enums.SMS.LOGIN_SMS
+            this.PcCookie.delete({
+              key: this.gbs.SMS.LOGIN_SMS
             })
             this.jump('dealer')
           }
@@ -227,32 +217,26 @@ export default {
     }
   },
   async mounted () {
-    setTimeout(() => {
-      this.HcMessageBox('成功')
-      setTimeout(() => {
-        this.HcMessageBox.close()
-      }, 1000)
-    }, 1000)
-    // if(process.env.NODE_ENV === 'development') {
-    //   // this.$pcCookie.set({
-    //   //   key: this.$enums.USER.OPEN_ID,/*  */
-    //   //   value: "oprKT5wyduR3BgXqFSTy9RsHt6jQ"
-    //   // });
-    // }
-    // if (!this.$pcCookie.get(this.$enums.USER.OPEN_ID)) {
-    //   if (!!this.$route.query.code) {
-    //     const result = await this.getOpenId(this.$route.query.code);
-    //     if (!result.errcode) {
-    //       this.$pcCookie.set({
-    //         key: this.$enums.USER.OPEN_ID,
-    //         value: result.openid
-    //       });
-    //     }
-    //     this.jump("login");
-    //   } else {
-    //     this.getWXCode();
-    //   }
-    // }
+    if (process.env.NODE_ENV === 'development') {
+      this.PcCookie.set({
+        key: this.gbs.USER.OPEN_ID, /*  */
+        value: 'oprKT5wyduR3BgXqFSTy9RsHt6jQ'
+      })
+    }
+    if (!this.PcCookie.get(this.gbs.USER.OPEN_ID)) {
+      if (this.$route.query.code) {
+        const result = await this.getOpenId(this.$route.query.code)
+        if (!result.errcode) {
+          this.PcCookie.set({
+            key: this.gbs.USER.OPEN_ID,
+            value: result.openid
+          })
+        }
+        this.jump('login')
+      } else {
+        this.getWXCode()
+      }
+    }
   }
 }
 </script>

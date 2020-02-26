@@ -1,18 +1,22 @@
 /* eslint-disable */
 import { HcMessageBox } from "components/hcMessage/index.js";
+import { PcCookie, gbs } from '../utils/index';
+
 let mixin = {
   data() {
     return {
-      HcMessageBox
-		}
+      HcMessageBox,
+      PcCookie,
+      gbs
+    }
   },
   methods: {
     go(url) {
-			this.$router.push(url)
-		},
-		back(url) {
-			this.$router.back()
-		},
+      this.$router.push(url)
+    },
+    back(url) {
+      this.$router.back()
+    },
     getUrlParam(name) {
       let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
       let result = window.location.search.substr(1).match(reg);
@@ -30,16 +34,16 @@ let mixin = {
     },
     jump(routerName, param) {
       if (param) {
-        this.$router.push({name: routerName, query: param});
+        this.$router.push({ name: routerName, query: param });
       } else {
-        this.$router.push({name: routerName});
+        this.$router.push({ name: routerName });
       }
     },
     jumpReplace(routerName, param) {
       if (param) {
-        this.$router.replace({name: routerName, query: param});
+        this.$router.replace({ name: routerName, query: param });
       } else {
-        this.$router.replace({name: routerName});
+        this.$router.replace({ name: routerName });
       }
     },
     goBack() {
@@ -86,12 +90,12 @@ let mixin = {
       let r1, r2, m, c;
       try {
         r1 = arg1.toString().split(".")[1].length;
-      } catch(e) {
+      } catch (e) {
         r1 = 0;
       }
       try {
         r2 = arg2.toString().split(".")[1].length;
-      } catch(e) {
+      } catch (e) {
         r2 = 0;
       }
       c = Math.abs(r1 - r2);
@@ -115,24 +119,24 @@ let mixin = {
       let r1, r2, m, n;
       try {
         r1 = arg1.toString().split(".")[1].length;
-      } catch(e) {
+      } catch (e) {
         r1 = 0;
       }
       try {
         r2 = arg2.toString().split(".")[1].length;
-      } catch(e) {
+      } catch (e) {
         r2 = 0;
       }
       m = Math.pow(10, Math.max(r1, r2)); //last modify by deeka //动态控制精度长度
-      n = (r1 >= r2) ? r1: r2;
+      n = (r1 >= r2) ? r1 : r2;
       return ((arg1 * m - arg2 * m) / m).toFixed(n);
     },
     operationMul(arg1, arg2) {
-      var m=0,s1=arg1.toString(),
-      s2 = arg2.toString();
-      try{ m+=s1.split(".")[1].length }catch(e){};
-      try{ m+=s2.split(".")[1].length }catch(e){};
-      return Number(s1.replace(".", ""))*Number(s2.replace(".", ""))/Math.pow(10, m);
+      var m = 0, s1 = arg1.toString(),
+        s2 = arg2.toString();
+      try { m += s1.split(".")[1].length } catch (e) { };
+      try { m += s2.split(".")[1].length } catch (e) { };
+      return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     },
     // 去除空格
     hcTrim(str) {
@@ -140,30 +144,56 @@ let mixin = {
     },
     // 去除所有空格
     hcTrimAll(str) {
-      return str.replace(/\s+/g,"")
+      return str.replace(/\s+/g, "")
     },
     // 格式化金额
-    amountFormat(number, decimals=2, dec_point, thousands_sep) {
+    amountFormat(number, decimals = 2, dec_point, thousands_sep) {
       number = (number + '').replace(/[^0-9+-Ee.]/g, '');
       var n = !isFinite(+number) ? 0 : +number,
-      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-      sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-      s = '',
-      toFixedFix = (n, prec) => {
-        var k = Math.pow(10, prec);
-        return '' + Math.ceil(this.operationMul(n, k)) / k;
-      };
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = (n, prec) => {
+          var k = Math.pow(10, prec);
+          return '' + Math.ceil(this.operationMul(n, k)) / k;
+        };
       s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
       var re = /(-?\d+)(\d{3})/;
       while (re.test(s[0])) {
-          s[0] = s[0].replace(re, "$1" + sep + "$2");
+        s[0] = s[0].replace(re, "$1" + sep + "$2");
       };
       if ((s[1] || '').length < prec) {
-          s[1] = s[1] || '';
-          s[1] += new Array(prec - s[1].length + 1).join('0');
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
       };
       return s.join(dec);
+    },
+    // 获取定位
+    geolocation() {
+      return new Promise(function (resolve, reject) {
+        let geolocation = new BMap.Geolocation()
+        geolocation.enableSDKLocation();
+        geolocation.getCurrentPosition(function (r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            resolve(r)
+          } else {
+            reject(r)
+          }
+        }, { enableHighAccuracy: true })
+      })
+    },
+    getLocation(pt) {
+      return new Promise(function (resolve) {
+        let geoc = new BMap.Geocoder();
+        geoc.getLocation((new BMap.Point(...pt)), function(result) {
+          resolve(result)
+        })
+      })
+    },
+    async getCurrentAddress() {
+      const { point: {lng, lat} } = await this.geolocation()
+      return await this.getLocation([lng, lat])
     }
   }
 };
