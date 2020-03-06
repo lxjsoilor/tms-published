@@ -10,6 +10,11 @@
     />
     <div class="hc-details-box">
       <div id="hcallmap" class="hc-allmap"></div>
+      <div class="hc-map-button">
+        <van-button @click="handlerPay('start')" v-ripple icon="play-circle-o" plain size="small" type="primary">运行</van-button>
+        <van-button @click="handlerPay('pause')" v-ripple icon="pause-circle-o" plain size="small" type="primary">暂停</van-button>
+      </div>
+
     </div>
     <div class="hc-popup">
       <van-popup
@@ -101,7 +106,9 @@ export default {
     return {
       show: true,
       popupHeight: '80px',
-      flagActive: true
+      flagActive: true,
+      lushu: null,
+      map: null
     }
   },
   computed: {
@@ -114,22 +121,29 @@ export default {
     }
   },
   methods: {
+    handlerPay(type) {
+      this.map.setZoom(10)
+      if(type === 'start') {
+        this.lushu.start();
+      } else {
+        this.lushu.pause();
+      }
+    },
     initMap () {
       var points = currentPoints.points.map(item => {
         return Convertor2.Convertor.WGS2BD09(item)
       });
-      var map = new BMap.Map('hcallmap') // 创建Map实例
-      map.enableScrollWheelZoom()
+      this.map = new BMap.Map('hcallmap') // 创建Map实例
+      this.map.enableScrollWheelZoom()
       var arrPois = [];
-      var lushu;
       for (var i = 0; i < points.length; i++) {
         var lng = points[i].lng;
         var lat = points[i].lat;
         arrPois.push(new BMap.Point(lng, lat));
       }
-      map.addOverlay(new BMap.Polyline(arrPois, { strokeColor: '#008b67' }));
-      map.setViewport(arrPois);
-      lushu = new BMapLib.LuShu(map, arrPois, {
+      this.map.addOverlay(new BMap.Polyline(arrPois, { strokeColor: '#008b67' }));
+      this.map.setViewport(arrPois);
+      this.lushu = new BMapLib.LuShu(this.map, arrPois, {
         defaultContent: "",
         autoView: true,//是否开启自动视野调整，如果开启那么路书在运动过程中会根据视野自动调整
         icon: new BMap.Icon(require('../../assets/image/truck_icon.png'), new BMap.Size(35, 35)),
@@ -142,13 +156,13 @@ export default {
       let startIcon = new BMap.Icon(require('../../assets/image/icon-start.png'), new BMap.Size(26, 35), {
         anchor: new BMap.Size(13, 35)
       })
-      map.addOverlay(new BMap.Marker(startPoint, {icon: startIcon}))
+      this.map.addOverlay(new BMap.Marker(startPoint, {icon: startIcon}))
       // 终点
       let endPoint = arrPois[arrPois.length - 1]
       let endIcon = new BMap.Icon(require('../../assets/image/icon-end.png'), new BMap.Size(26, 35), {
         anchor: new BMap.Size(13, 35)
       })
-      map.addOverlay(new BMap.Marker(endPoint, {icon: endIcon}))
+      this.map.addOverlay(new BMap.Marker(endPoint, {icon: endIcon}))
       // 卸货点
       uploadPointList.forEach((item, index) => {
         let uploadPoint = new BMap.Point(item.lng, item.lat)
@@ -175,11 +189,10 @@ export default {
           justifyContent: 'center',
           alignItems: 'center'
         })
-        map.addOverlay(marker)
+        this.map.addOverlay(marker)
         marker.setLabel(label)
         // 动画
-        map.setZoom(10)
-        lushu.start();
+
       });
     },
     handlerTab () {
@@ -206,6 +219,17 @@ export default {
   .hc-details-box {
     padding-top: 46px;
     height: 100vh;
+    position: relative;
+    .hc-map-button {
+      position: absolute;
+      right: 10px;
+      top: 50px;
+      display: flex;
+      flex-direction: column;
+      button {
+        margin-bottom: 5px;
+      }
+    }
     .hc-allmap {
       width: 100%;
       height: 100%;

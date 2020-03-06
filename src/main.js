@@ -9,6 +9,7 @@ import 'vant/lib/index.css'
 import 'common/style/reset.css'
 import 'common/style/animated.css'
 import Ripple from 'vue-ripple-directive'
+Ripple.color = 'rgba(0, 0, 0, 0.15)'
 
 window.addEventListener('popstate', function (e) {
   router.isBack = true

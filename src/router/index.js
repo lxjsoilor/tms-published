@@ -7,6 +7,11 @@ import login from '@/pages/user/login'
 import register from '@/pages/user/register'
 import logisticsList from '@/pages/logistics/list'
 import logisticsDetails from '@/pages/logistics/details'
+// 异常提报
+import logisticsSubmission from '@/pages/logistics/submission'
+// 订单提交
+import logisticsSignFor from '@/pages/logistics/signFor'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -36,6 +41,16 @@ const router = new Router({
       path: '/logisticsDetails',
       name: 'logisticsDetails',
       component: logisticsDetails
+    },
+    {
+      path: '/logisticsSubmission',
+      name: 'logisticsSubmission',
+      component: logisticsSubmission
+    },
+    {
+      path: '/logisticsSignFor',
+      name: 'logisticsSignFor',
+      component: logisticsSignFor
     }
   ]
 })
