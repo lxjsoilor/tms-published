@@ -1,9 +1,15 @@
 <template>
   <div>
     <!-- <hcLoading v-model="loading"/> -->
-    <transition :name="transitionName">
-      <router-view class="hc-Router"></router-view>
+    <transition :name="'fade'">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive" class="hc-Router"></router-view>
+      </keep-alive>
     </transition>
+    <transition :name="'fade'">
+      <router-view v-if="!$route.meta.keepAlive" class="hc-Router"></router-view>
+    </transition>
+
   </div>
 </template>
 
@@ -32,7 +38,7 @@ export default {
 
 <style lang="scss">
 .hc-Router {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   transition: all 0.377s ease;
@@ -51,5 +57,16 @@ export default {
 .slide-right-enter {
   opacity: 0;
   transform: translate3d(100%, 0, 0);
+}
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  transition: opacity 0s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

@@ -3,10 +3,10 @@
     <van-nav-bar
       title="运单详细信息"
       left-arrow
-      bind:click-left="onClickLeft"
-      bind:click-right="onClickRight"
+      left-text="返回"
       fixed
       border
+      @click-left="back()"
     />
     <div class="hc-details-box">
       <div id="hcallmap" class="hc-allmap"></div>
@@ -94,6 +94,7 @@
 
 <script>
 /* eslint-disable */
+import { HcLoading } from 'components/hcLoading/index.js'
 import 'common/js/lushu.js'
 import points from 'common/js/js722.js'
 import Convertor from 'common/js/bmap.js'
@@ -206,6 +207,10 @@ export default {
   async mounted () {
     const result = await this.getCurrentAddress()
     this.initMap()
+    HcLoading.show()
+    setTimeout(() => {
+      HcLoading.close()
+    }, 4000)
   }
 }
 </script>

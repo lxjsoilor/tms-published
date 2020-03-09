@@ -11,6 +11,10 @@ import logisticsDetails from '@/pages/logistics/details'
 import logisticsSubmission from '@/pages/logistics/submission'
 // 订单提交
 import logisticsSignFor from '@/pages/logistics/signFor'
+// 操作说明
+import illustrate from '@/pages/illustrate/index'
+// 搜索
+import logisticsSearch from '@/pages/logistics/search'
 
 Vue.use(Router)
 
@@ -51,6 +55,19 @@ const router = new Router({
       path: '/logisticsSignFor',
       name: 'logisticsSignFor',
       component: logisticsSignFor
+    },
+    {
+      path: '/illustrate',
+      name: 'illustrate',
+      component: illustrate
+    },
+    {
+      path: '/logisticsSearch',
+      name: 'logisticsSearch',
+      component: logisticsSearch,
+      meta: {
+        keepAlive: true
+      }
     }
   ]
 })

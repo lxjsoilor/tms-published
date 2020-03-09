@@ -1,12 +1,12 @@
 <template>
   <div class="hc-logistics-list">
-    <van-nav-bar title="物流查询" @click-left="sheetShow = !sheetShow" fixed>
+    <van-nav-bar title="物流查询" @click-left="sheetShow = !sheetShow"  @click-right="jump('logisticsSearch')" fixed>
       <van-icon name="search" slot="right" color="#B3B3B3" size="20px" />
       <van-icon name="bars" slot="left" color="#B3B3B3" size="20px" style="font-size:12px"></van-icon>
     </van-nav-bar>
     <div class="hc-list-box">
-      <div>fsdf</div>
-      <van-tabs sticky offset-top="45" @click="handlerClick" :active="activeTabs" color="#008B67" title-active-color="#008B67" line-width="150">
+      <!-- <div class="">某某公司</div> -->
+      <van-tabs sticky animated offset-top="45" @click="handlerClick" :active="activeTabs" color="#008B67" title-active-color="#008B67" line-width="150">
         <van-tab title="未签收">
           <div class="nodataimg" v-if="!resultSheet==undefined||resultSheet.length<=0">
             <img src="../../assets/nodata.svg" alt />
@@ -77,10 +77,10 @@
                     <div class="cellinfo item-button">
                       <van-row type="flex" justify="center">
                         <van-col span="10">
-                          <button v-ripple class="signbutton yellow" @click="toBugpull(item)">异常提报</button>
+                          <button v-ripple class="signbutton yellow" @click="jump('logisticsSubmission')">异常提报</button>
                         </van-col>
                         <van-col span="10">
-                          <button v-ripple class="signbutton green" @click="toorderSign(item)">到达&签收</button>
+                          <button v-ripple class="signbutton green" @click="jump('logisticsSignFor')">到达&签收</button>
                         </van-col>
                         <van-col span="10">
                           <button v-ripple class="signbutton green" @click="jump('logisticsDetails')">详细信息</button>
@@ -163,10 +163,10 @@
                     <div class="cellinfo item-button">
                       <van-row type="flex" justify="center">
                         <van-col span="10">
-                          <button v-ripple class="signbutton yellow" @click="toBugpull(item)">异常提报</button>
+                          <button v-ripple class="signbutton yellow" @click="jump('logisticsSubmission')">异常提报</button>
                         </van-col>
                         <van-col span="10">
-                          <button v-ripple class="signbutton green" @click="toorderSign(item)">到达&签收</button>
+                          <button v-ripple class="signbutton green" @click="jump('logisticsSignFor')">到达&签收</button>
                         </van-col>
                         <van-col span="10">
                           <button v-ripple class="signbutton green" @click="jump('logisticsDetails')">详细信息</button>
@@ -181,7 +181,7 @@
         </van-tab>
       </van-tabs>
     </div>
-    <!-- <van-action-sheet cancel-text="取消" v-model="sheetShow" :actions="sheetActions" @select="onSelect" /> -->
+    <van-action-sheet cancel-text="取消" v-model="sheetShow" :actions="sheetActions" @select="onSelect" />
   </div>
 </template>
 <script>
@@ -190,13 +190,35 @@ export default {
   data () {
     return {
       sheetShow: false,
-      activeTabs: 1,
-      resultSheet: [{}, {}, {}]
+      activeTabs: 0,
+      resultSheet: [{}, {}, {}],
+      sheetActions: [
+        { name: '退出' },
+        { name: '操作说明' }
+      ]
     }
   },
   methods: {
     handlerClick () {
 
+    },
+    onSelect (item) {
+      if (item.name === '退出') {
+        this.logout()
+      } else {
+        this.jump('illustrate')
+      }
+    },
+    logout () {
+      this.sheetShow = false
+      this.HcMessageBox.alert('是否退出当前账号？', {
+        iconType: 'err'
+      }).then(() => {
+        this.PcCookie.delete({
+          key: this.gbs.USER.PHONE
+        })
+        this.jump('login')
+      })
     }
   }
 }
@@ -232,7 +254,7 @@ export default {
     width: px2rem(100);
     height: px2rem(37);
     background-color: #ffffff;
-    font-size: px2rem(15);
+    font-size: px2rem(12);
   }
 
   .detailbutton {
@@ -321,7 +343,7 @@ export default {
         }
       }
       .cellcenter {
-        padding: 0;
+        padding-top: 10px;
         margin-right: px2rem(15);
         margin-left: px2rem(15);
         font-size: px2rem(12);

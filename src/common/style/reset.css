@@ -77,3 +77,16 @@ textarea {
     resize: none;
     overflow: auto;
 }
+
+.van-nav-bar__left .van-icon {
+  color: #008b67 !important;
+  font-size: 18px;
+}
+.van-nav-bar__left .van-nav-bar__text {
+  color: #008b67 !important;
+}
+
+.van-nav-bar__right .van-icon {
+  font-size: 20px;
+  color: #008b67 !important;
+}

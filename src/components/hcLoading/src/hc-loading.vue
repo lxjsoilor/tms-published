@@ -3,7 +3,9 @@
     <div class="wrapper" @click.stop>
       <div class="truck-wrapper">
         <div class="truck">
-          <div class="truck-container"></div>
+          <div class="truck-container">
+            <img src="../../../assets/image/hucai-logo.png" alt="">
+          </div>
           <div class="glases"></div>
           <div class="bonet"></div>
           <div class="base"></div>
@@ -34,45 +36,45 @@ export default {
 .truck-wrapper {
   height: 200px;
   width: 200px;
-  border: 4px solid #1dd3d6;
+  border: 4px solid #008b67;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translateX(-50%) translateY(-50%) scale(0.5);
-  background: white;
+  transform: translateX(-50%) translateY(-50%) scale(0.6);
+  background: rgba(255, 255, 255, 0.4);
   animation: bg 0.5s linear infinite;
   /* border-bottom:3px solid #404143; */
   border-radius: 100%;
   overflow: hidden;
   box-shadow: inset 0px 0px 10px 4px rgba(0, 0, 0, 0.3),
-    inset 0px 0px 5px 0px #1dd3d6;
+    inset 0px 0px 5px 0px #008b67;
 }
 
 .truck-wrapper:after {
-  content: "Loading";
+  content: "加载中";
   font-size: 28px;
   position: absolute;
   bottom: 0px;
   text-align: center;
   width: 100%;
-  border-top: 1px solid #1dd3d6;
+  border-top: 1px solid #008b67;
   background: rgb(30, 252, 200);
   background: -moz-linear-gradient(
     left,
-    rgba(30, 252, 200, 1) 0%,
-    rgba(29, 211, 214, 1) 100%
+    #12ca9a 0%,
+    #008b67 100%
   );
   background: -webkit-linear-gradient(
     left,
-    rgba(30, 252, 200, 1) 0%,
-    rgba(29, 211, 214, 1) 100%
+    #12ca9a 0%,
+    #008b67 100%
   );
   background: linear-gradient(
     to right,
-    rgba(30, 252, 200, 1) 0%,
-    rgba(29, 211, 214, 1) 100%
+    #12ca9a 0%,
+    #008b67 100%
   );
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1efcc8', endColorstr='#1dd3d6',GradientType=1 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1efcc8', endColorstr='#008b67',GradientType=1 );
   color: white;
   padding-top: 8px;
   padding-bottom: 18px;
@@ -90,6 +92,11 @@ export default {
 }
 
 .truck > .truck-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: #006b4f;
   background: rgb(175, 189, 195);
   background: -moz-linear-gradient(
     -45deg,
@@ -121,28 +128,32 @@ export default {
   animation: container 0.4s linear infinite;
 }
 
+.truck > .truck-container img {
+  width: 100%;
+}
+
 .truck > .glases {
-  background: rgb(40, 181, 245);
+  background: #008b67;
   background: -moz-linear-gradient(
     -45deg,
-    rgba(40, 181, 245, 1) 0%,
-    rgba(40, 181, 245, 1) 50%,
-    rgba(2, 153, 227, 1) 52%,
-    rgba(2, 153, 227, 1) 100%
+    #008b67 0%,
+    #008b67 50%,
+    #008b67 52%,
+    #008b67 100%
   );
   background: -webkit-linear-gradient(
     -45deg,
-    rgba(40, 181, 245, 1) 0%,
-    rgba(40, 181, 245, 1) 50%,
-    rgba(2, 153, 227, 1) 52%,
-    rgba(2, 153, 227, 1) 100%
+     #008b67 0%,
+    #008b67 50%,
+    #008b67 52%,
+    #008b67 100%
   );
   background: linear-gradient(
     135deg,
-    rgba(40, 181, 245, 1) 0%,
-    rgba(40, 181, 245, 1) 50%,
-    rgba(2, 153, 227, 1) 52%,
-    rgba(2, 153, 227, 1) 100%
+     #008b67 0%,
+    #008b67 50%,
+    #008b67 52%,
+    #008b67 100%
   );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#28b5f5', endColorstr='#0299e3',GradientType=1 );
   position: absolute;

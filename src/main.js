@@ -15,6 +15,14 @@ window.addEventListener('popstate', function (e) {
   router.isBack = true
 }, false)
 
+// eslint-disable-next-line
+import VConsole from 'vconsole' //import vconsole
+// eslint-disable-next-line
+if(process.env.NODE_ENV === 'development') {
+// eslint-disable-next-line
+  new VConsole() // 初始化
+}
+
 Vue.config.productionTip = false
 
 Vue.use(Vant)

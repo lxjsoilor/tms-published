@@ -1,13 +1,15 @@
 /* eslint-disable */
 import { HcMessageBox } from "components/hcMessage/index.js";
 import { PcCookie, gbs } from '../utils/index';
+import moment from "moment";
 
 let mixin = {
   data() {
     return {
       HcMessageBox,
       PcCookie,
-      gbs
+      gbs,
+      moment
     }
   },
   methods: {

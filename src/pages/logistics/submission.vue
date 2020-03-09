@@ -1,6 +1,6 @@
 <template>
   <div class="hc-submission">
-    <van-nav-bar title="运单详细信息" left-arrow bind:click-left="onClickLeft" bind:click-right="onClickRight" fixed border />
+    <van-nav-bar title="运单详细信息" left-text="返回" left-arrow @click-left="back()" fixed border />
     <div>
       <van-grid :border="false" :column-num="3">
         <van-grid-item v-ripple @click="handlerChangeTab(1)">
@@ -72,6 +72,7 @@ export default {
       this.HcMessageBox('异常提交成功')
       setTimeout(() => {
         this.HcMessageBox.close()
+        this.back()
       }, 1000)
     },
     async getAddress () {

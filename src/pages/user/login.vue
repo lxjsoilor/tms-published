@@ -28,7 +28,7 @@ import { HcMessageBox } from 'components/hcMessage/index.js'
 export default {
   data () {
     return {
-      Phone: '',
+      Phone: '18765381988',
       SmsCode: '',
       regMessageTpl: '',
       smsCodeBtn: '获取验证码'
@@ -125,7 +125,6 @@ export default {
         Phone: this.Phone,
         WeChatNo: this.PcCookie.get(this.gbs.USER.OPEN_ID)
       })
-      console.log(result)
       const data = result.Data[0]
       if (result.Success) {
         // 存储相关用户信息
