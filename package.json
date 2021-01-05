@@ -12,7 +12,7 @@
     "fix": "node_modules/.bin/eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
     "js-md5": "^0.7.3",
     "moment": "^2.24.0",
